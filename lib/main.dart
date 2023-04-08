@@ -1,47 +1,54 @@
-import 'package:belajar_getx/controllers/counter_controller.dart';
+import 'package:belajar_getx/models/person.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 void main() {
-  runApp(MyApp());
+  runApp(const MyApp());
 }
 
 class MyApp extends StatelessWidget {
-  final counterController = Get.put(CountController());
-  MyApp({super.key});
+  const MyApp({super.key});
 
   @override
   Widget build(BuildContext context) {
-    return Obx(() => GetMaterialApp(
-          theme: counterController.isDark.value
-              ? ThemeData.dark()
-              : ThemeData.light(),
-          home: const HomePage(),
-        ));
-  }
-}
+    var person = Person();
+    var count = 0.obs;
+    void add() {
+      count++;
+    }
 
-class HomePage extends StatelessWidget {
-  const HomePage({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    final counterController = Get.find<CountController>();
-    return Scaffold(
-      appBar: AppBar(),
-      body: Center(
-        child: Obx(() => Text(
-              "ANGKA ${counterController.counter.value}",
-              style: const TextStyle(
-                fontSize: 35,
-              ),
-            )),
-      ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: () {
-          // counterController.increment();
-          counterController.changeTheme();
-        },
+    return MaterialApp(
+      home: Scaffold(
+        appBar: AppBar(),
+        body: Center(
+          child: Obx(() => Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Text(
+                    "angka $count",
+                    style: const TextStyle(
+                      fontSize: 35,
+                    ),
+                  ),
+                  Text(
+                    "Nama saya ${person.name}",
+                    style: const TextStyle(
+                      fontSize: 35,
+                    ),
+                  )
+                ],
+              )),
+        ),
+        floatingActionButton: FloatingActionButton(
+          onPressed: () {
+            add();
+            if (count % 2 == 0) {
+              person.name.value = person.name.value.toLowerCase();
+            } else {
+              person.name.value = person.name.value.toUpperCase();
+            }
+          },
+        ),
       ),
     );
   }
