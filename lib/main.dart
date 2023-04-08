@@ -1,5 +1,3 @@
-import 'package:belajar_getx/controllers/counter_controller.dart';
-import 'package:belajar_getx/controllers/person_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -12,9 +10,6 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final personController = Get.put(PersonController());
-    final counterController = Get.put(CounterController());
-
     return MaterialApp(
       home: Scaffold(
         appBar: AppBar(),
@@ -23,68 +18,61 @@ class MyApp extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               GetBuilder<CounterController>(
+                id: "joni",
                 init: CounterController(),
                 initState: (_) {},
                 builder: (controller) {
                   return Text(
-                    "Angka ${controller.integer}",
+                    "Angka ${controller.count}",
                     style: const TextStyle(
                       fontSize: 35,
                     ),
                   );
                 },
               ),
-              GetX<CounterController>(
+              GetBuilder<CounterController>(
                 init: CounterController(),
                 initState: (_) {},
                 builder: (controller) {
                   return Text(
-                    "Angka ${controller.count.value}",
+                    "Angka ${controller.count}",
                     style: const TextStyle(
                       fontSize: 35,
                     ),
                   );
                 },
               ),
-              const SizedBox(
-                height: 50,
+              GetBuilder<CounterController>(
+                id: "budi",
+                init: CounterController(),
+                initState: (_) {},
+                builder: (controller) {
+                  return Text(
+                    "Angka ${controller.count}",
+                    style: const TextStyle(
+                      fontSize: 35,
+                    ),
+                  );
+                },
               ),
-              Obx(() => Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Text(
-                        "Nama saya ${personController.person.name}",
-                        style: const TextStyle(
-                          fontSize: 35,
-                        ),
-                      ),
-                      Text(
-                        "Nama saya ${personController.orang.value.name}",
-                        style: const TextStyle(
-                          fontSize: 35,
-                        ),
-                      ),
-                      Text(
-                        "Angka ${counterController.count.value}",
-                        style: const TextStyle(
-                          fontSize: 35,
-                        ),
-                      ),
-                    ],
-                  )),
             ],
           ),
         ),
         floatingActionButton: FloatingActionButton(
           onPressed: () {
-            personController.changeUpperCase();
-            personController.changeUpperCaseObjectClass();
-            counterController.increment();
-            Get.find<CounterController>().increment();
-            Get.find<CounterController>().nambah();
+            Get.find<CounterController>().add();
           },
         ),
       ),
     );
+  }
+}
+
+class CounterController extends GetxController {
+  var count = 0;
+
+  void add() {
+    count++;
+    update(['joni', 'budi']);
   }
 }
