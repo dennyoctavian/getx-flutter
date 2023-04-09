@@ -1,5 +1,6 @@
-import 'package:belajar_getx/pages/home_page.dart';
+import 'package:belajar_getx/pages/page1.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 
 void main() {
   runApp(const MyApp());
@@ -10,8 +11,8 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      home: HomePage(),
+    return const GetMaterialApp(
+      home: PageSatu(),
     );
   }
 }
