@@ -1,4 +1,4 @@
-import 'package:belajar_getx/pages/page2.dart';
+import 'package:belajar_getx/routes/route_name.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -18,11 +18,7 @@ class PageSatu extends StatelessWidget {
           children: [
             ElevatedButton(
                 onPressed: () {
-                  // push replacement
-                  // Get.off(() => const PageDua());
-                  // push and remove until
-                  // Get.offAll(() => const PageDua());
-                  Get.to(() => const PageDua(), arguments: "ini dari page 1");
+                  Get.toNamed(RouteName.page_2);
                 },
                 child: const Text("Next Page >>"))
           ],

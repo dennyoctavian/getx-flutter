@@ -1,4 +1,4 @@
-import 'package:belajar_getx/pages/page3.dart';
+import 'package:belajar_getx/routes/route_name.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -23,8 +23,7 @@ class PageDua extends StatelessWidget {
                 child: const Text("BackPage >>")),
             ElevatedButton(
                 onPressed: () async {
-                  var data = await Get.to(() => const PageTiga());
-                  print("Hasil : $data");
+                  Get.toNamed(RouteName.page_3);
                 },
                 child: const Text("Next Page >>")),
             Text(Get.arguments.toString()),

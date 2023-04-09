@@ -1,4 +1,4 @@
-import 'package:belajar_getx/pages/page4.dart';
+import 'package:belajar_getx/routes/route_name.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -18,12 +18,12 @@ class PageTiga extends StatelessWidget {
           children: [
             ElevatedButton(
                 onPressed: () {
-                  Get.back(result: "Ini dari page 3 loh");
+                  Get.back();
                 },
                 child: const Text("BackPage >>")),
             ElevatedButton(
                 onPressed: () {
-                  Get.to(() => const PageEmpat());
+                  Get.toNamed(RouteName.page_4);
                 },
                 child: const Text("Next Page >>"))
           ],
