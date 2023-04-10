@@ -1,7 +1,9 @@
-import 'package:belajar_getx/pages/page1.dart';
-import 'package:belajar_getx/routes/pages_route.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+
+import 'pages/detail_product_page.dart';
+import 'pages/home_page.dart';
+import 'pages/product_page.dart';
 
 void main() {
   runApp(const MyApp());
@@ -13,8 +15,21 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return GetMaterialApp(
-      home: const PageSatu(),
-      getPages: PagesRoute.pages,
+      home: const HomePage(),
+      getPages: [
+        GetPage(
+          name: '/',
+          page: () => const HomePage(),
+        ),
+        GetPage(
+          name: '/product',
+          page: () => const ProductPage(),
+        ),
+        GetPage(
+          name: '/product/:id?',
+          page: () => const DetailProductPage(),
+        ),
+      ],
     );
   }
 }
