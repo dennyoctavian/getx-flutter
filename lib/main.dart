@@ -1,10 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-import 'pages/detail_product_page.dart';
-import 'pages/home_page.dart';
-import 'pages/product_page.dart';
-
 void main() {
   runApp(const MyApp());
 }
@@ -15,21 +11,35 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return GetMaterialApp(
-      home: const HomePage(),
-      getPages: [
-        GetPage(
-          name: '/',
-          page: () => const HomePage(),
+      home: Scaffold(
+        appBar: AppBar(),
+        body: Center(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Builder(builder: (context) {
+                return ElevatedButton(
+                    onPressed: () {
+                      ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+                          duration: Duration(seconds: 2),
+                          content: Text("hello")));
+
+                      // Get.snackbar("ini adalah judulnya", "ini adalah isi pesannya",
+                      //     animationDuration: const Duration(seconds: 2));
+                    },
+                    child: const Text("Scaffold Messenger"));
+              }),
+              ElevatedButton(
+                  onPressed: () {
+                    Get.snackbar(
+                        "ini adalah judulnya", "ini adalah isi pesannya",
+                        animationDuration: const Duration(seconds: 2));
+                  },
+                  child: const Text("Getx snackbar"))
+            ],
+          ),
         ),
-        GetPage(
-          name: '/product',
-          page: () => const ProductPage(),
-        ),
-        GetPage(
-          name: '/product/:id?',
-          page: () => const DetailProductPage(),
-        ),
-      ],
+      ),
     );
   }
 }
