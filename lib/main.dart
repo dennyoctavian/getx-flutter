@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 
 void main() {
   runApp(const MyApp());
@@ -11,6 +10,8 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    Get.lazyPut(() => MyController(), fenix: true);
+    Get.put(MyController(), tag: 'hello');
     return const GetMaterialApp(
       home: HomePage(),
     );
@@ -25,6 +26,11 @@ class HomePage extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         title: const Text("Home Page"),
+        actions: [
+          IconButton(
+              onPressed: () => Get.to(() => const CountPage()),
+              icon: const Icon(Icons.keyboard_arrow_right))
+        ],
       ),
       body: Center(
         child: Column(
@@ -32,7 +38,7 @@ class HomePage extends StatelessWidget {
           children: [
             const Text("Home Page"),
             OutlinedButton(
-                onPressed: () => Get.to(() => CountPage()),
+                onPressed: () => Get.to(() => const CountPage()),
                 child: const Text("Next >>"))
           ],
         ),
@@ -42,11 +48,45 @@ class HomePage extends StatelessWidget {
 }
 
 class CountPage extends StatelessWidget {
-  final count = 0.obs;
-  CountPage({super.key});
+  const CountPage({super.key});
 
   @override
   Widget build(BuildContext context) {
+    final myC = Get.find<MyController>();
+    return Scaffold(
+      appBar: AppBar(
+        title: const Text("Count Page"),
+        actions: [
+          IconButton(
+              onPressed: () => Get.to(() => const TextPage()),
+              icon: const Icon(Icons.keyboard_arrow_right))
+        ],
+      ),
+      body: Center(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Obx(() => Text(
+                  "${myC.count}",
+                  style: const TextStyle(fontSize: 25),
+                )),
+          ],
+        ),
+      ),
+      floatingActionButton:
+          FloatingActionButton(onPressed: () => myC.increment()),
+    );
+  }
+}
+
+class TextPage extends StatelessWidget {
+  const TextPage({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    final myC = Get.find<MyController>(tag: 'hello');
+    final myCNotTag = Get.find<MyController>();
+    final c = Get.put(MyController(), tag: 'joko');
     return Scaffold(
       appBar: AppBar(
         title: const Text("Count Page"),
@@ -55,20 +95,27 @@ class CountPage extends StatelessWidget {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Obx(() => Text(
-                  "$count",
-                  style: const TextStyle(fontSize: 25),
-                )),
+            TextFormField(
+              controller: myC.textController,
+            ),
+            TextFormField(
+              controller: myCNotTag.textController,
+            ),
+            TextFormField(
+              controller: c.textController,
+            )
           ],
         ),
       ),
-      floatingActionButton: FloatingActionButton(
-          onPressed: () => Get.putAsync<SharedPreferences>(() async {
-                final prefs = await SharedPreferences.getInstance();
-                await prefs.setInt('counter', 12345);
-                count.value = prefs.getInt('counter') ?? 0;
-                return prefs;
-              })),
     );
+  }
+}
+
+class MyController extends GetxController {
+  var count = 0.obs;
+  final textController = TextEditingController();
+
+  void increment() {
+    count++;
   }
 }
