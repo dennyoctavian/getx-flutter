@@ -1,3 +1,5 @@
+import 'package:belajar_getx/controller/count_controller.dart';
+import 'package:belajar_getx/pages/count_page.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -12,8 +14,20 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const GetMaterialApp(
-      home: HomePage(),
+    return GetMaterialApp(
+      home: const HomePage(),
+      getPages: [
+        GetPage(
+          name: '/',
+          page: () => const HomePage(),
+        ),
+        GetPage(
+            name: '/count',
+            page: () => CountPage(),
+            binding: BindingsBuilder(() {
+              Get.put(CountController());
+            })),
+      ],
     );
   }
 }

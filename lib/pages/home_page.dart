@@ -1,4 +1,3 @@
-import 'package:belajar_getx/pages/shop_page.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -17,8 +16,18 @@ class HomePage extends StatelessWidget {
           children: [
             const Text("Home Page"),
             OutlinedButton(
-                onPressed: () => Get.to(() => ShopPage()),
-                child: const Text("SHOP >>"))
+                onPressed: () {
+                  // Get.to(
+                  //   () => CountPage(),
+                  //   binding: BindingsBuilder(
+                  //     () {
+                  //       Get.put(CountController());
+                  //     },
+                  //   ),
+                  // );
+                  Get.toNamed('/count');
+                },
+                child: const Text("Next >>"))
           ],
         ),
       ),
